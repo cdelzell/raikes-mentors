@@ -1,7 +1,12 @@
 {
-  "files": [],
+  "files": ["src/main.tsx"],
+  "composite": true,
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "compilerOptions": {
+    "types": ["vite/client"]
+  },
+  "include": ["./src", "src/vite-env.d.ts"]
 }
