@@ -24,20 +24,27 @@ const signIn: (provider: AuthProvider) => void | Promise<AuthResponse> = async (
 
 export default function SignIn() {
   return (
-    // preview-start
-    <AppProvider>
-      <SignInPage
-        signIn={signIn}
-        providers={providers}
-        slotProps={{ form: { noValidate: true } }}
-        sx={{
-          "& form > .MuiStack-root": {
-            marginTop: "2vw",
-            rowGap: "0.5vw",
-          },
-        }}
-      />
-    </AppProvider>
-    // preview-end
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <AppProvider>
+        <SignInPage
+          signIn={signIn}
+          providers={providers}
+          slotProps={{ form: { noValidate: true } }}
+          sx={{
+            "& form > .MuiStack-root": {
+              marginTop: "2vw",
+              rowGap: "0.5vw",
+            },
+          }}
+        />
+      </AppProvider>
+    </div>
   );
 }
