@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import SignIn from "../src/signIn.tsx";
+import SignIn from "./signIn/signIn.js";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 
