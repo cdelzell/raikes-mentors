@@ -6,7 +6,6 @@ import {
 } from "@toolpad/core/SignInPage";
 
 const providers = [
-  { id: "github", name: "GitHub" },
   { id: "google", name: "Google" },
   { id: "credentials", name: "Email and Password" },
 ];
@@ -26,15 +25,15 @@ const signIn: (provider: AuthProvider) => void | Promise<AuthResponse> = async (
 export default function SignIn() {
   return (
     // preview-start
-    <AppProvider theme={THEME}>
+    <AppProvider>
       <SignInPage
         signIn={signIn}
         providers={providers}
         slotProps={{ form: { noValidate: true } }}
         sx={{
           "& form > .MuiStack-root": {
-            marginTop: "2rem",
-            rowGap: "0.5rem",
+            marginTop: "2vw",
+            rowGap: "0.5vw",
           },
         }}
       />
