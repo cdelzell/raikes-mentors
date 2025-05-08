@@ -7,9 +7,16 @@ import {
   setDoc,
   getDoc,
   getDocs,
+  updateDoc,
+  arrayUnion,
 } from "firebase/firestore";
 import { app } from "../firebase";
-import { findUserByUserID, findUserByEmail } from "./readDatabase";
+import {
+  findUserByUserID,
+  findUserIDByEmail,
+  getMenteeData,
+  getMentorData,
+} from "./readDatabase";
 
 const db = getFirestore(app);
 
@@ -36,7 +43,11 @@ export async function addNewUser(userData: userData) {
 
 export async function addNewMentor(userData: userData) {
   try {
-    const userID = findUserByEmail(userData.email);
+    let userID = await findUserIDByEmail(userData.email);
+
+    if (userID == null) {
+      return null;
+    }
 
     const docRef = await addDoc(collection(db, "users", userID), {
       mentees: [] as string[],
@@ -51,15 +62,73 @@ export async function addNewMentor(userData: userData) {
   }
 }
 
+export async function addMenteeToMentor(
+  userData: userData,
+  menteeData: userData
+) {
+  try {
+    let userID = await findUserIDByEmail(userData.email);
+    let menteeID = await findUserIDByEmail(menteeData.email);
+
+    if (userID == null) {
+      return null;
+    }
+
+    const userDocRef = doc(db, "mentors", userID);
+
+    await updateDoc(userDocRef, {
+      mentees: arrayUnion(menteeID),
+    });
+
+    console.log("Document written with ID: ", userID);
+    return userID; // Return the new document ID if needed
+  } catch (e) {
+    console.error("Error adding document: ", e);
+    throw e; // Re-throw the error to handle it elsewhere
+  }
+}
+
 export async function addNewMentee(userData: userData) {
   try {
-    const docRef = await addDoc(collection(db, "users", menteeData.userID), {
-      mentees: menteeData.mentors,
-      userID: menteeData.userID,
+    let userID = await findUserIDByEmail(userData.email);
+
+    if (userID == null) {
+      return null;
+    }
+
+    const docRef = await addDoc(collection(db, "users", userID), {
+      mentees: [] as string[],
+      userID: userID,
     });
 
     console.log("Document written with ID: ", docRef.id);
     return docRef.id; // Return the new document ID if needed
+  } catch (e) {
+    console.error("Error adding document: ", e);
+    throw e; // Re-throw the error to handle it elsewhere
+  }
+}
+
+export async function addMentorToMentee(
+  userData: userData,
+  mentorData: userData
+) {
+  try {
+    let userID = await findUserIDByEmail(userData.email);
+    let mentorID = await findUserIDByEmail(mentorData.email);
+
+    if (userID == null) {
+      return null;
+    }
+
+    const userDocRef = doc(db, "mentees", userID);
+
+    await updateDoc(userDocRef, {
+      mentors: arrayUnion(mentorID),
+    });
+
+    console.log("Document written with ID: ", userID);
+    return userID; // Return the new document ID if needed
   } catch (e) {
     console.error("Error adding document: ", e);
     throw e; // Re-throw the error to handle it elsewhere

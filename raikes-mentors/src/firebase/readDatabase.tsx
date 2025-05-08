@@ -74,7 +74,7 @@ export async function findUserIDByEmail(email: string) {
 
 // Read information about a user given a userID
 export async function getMentorData(mentorID: string) {
-  const docRef = doc(db, "users", mentorID);
+  const docRef = doc(db, "mentors", mentorID);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
@@ -89,7 +89,7 @@ export async function getMentorData(mentorID: string) {
 
 // Read information about a user given a userID
 export async function getMenteeData(menteeID: string) {
-  const docRef = doc(db, "users", menteeID);
+  const docRef = doc(db, "mentees", menteeID);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
