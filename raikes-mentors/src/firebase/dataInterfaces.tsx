@@ -5,6 +5,7 @@ export interface userData {
   mentee: boolean;
   mentor: boolean;
   password: string;
+  cohort: number;
   phone: number;
 }
 

@@ -1,11 +1,9 @@
-import type { userData, mentors, mentees } from "./dataInterfaces";
+import type { userData } from "./dataInterfaces";
 import {
   getFirestore,
   collection,
   QuerySnapshot,
-  addDoc,
   doc,
-  setDoc,
   getDoc,
   getDocs,
   query,
@@ -28,6 +26,22 @@ export async function getUserData(userID: string) {
     // docSnap.data() will be undefined in this case
     console.log("No such document!");
     return null;
+  }
+}
+
+export async function logIn(email: string, password: string) {
+  const userID = await findUserIDByEmail(email);
+  if (userID == null) {
+    console.log("user not found.");
+    return null;
+  } else {
+    const userData = await findUserByUserID(userID);
+    if (userData != null) {
+      if (userData.userData?.password == password) {
+        console.log("User found!");
+        return userData;
+      }
+    }
   }
 }
 

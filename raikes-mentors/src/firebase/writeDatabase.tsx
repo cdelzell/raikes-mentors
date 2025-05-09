@@ -1,24 +1,19 @@
-import type { userData, mentors, mentees } from "./dataInterfaces";
+import type { userData } from "./dataInterfaces";
 import {
   getFirestore,
   collection,
   addDoc,
   doc,
-  setDoc,
-  getDoc,
-  getDocs,
   updateDoc,
   arrayUnion,
 } from "firebase/firestore";
 import { app } from "../firebase";
-import {
-  findUserByUserID,
-  findUserIDByEmail,
-  getMenteeData,
-  getMentorData,
-} from "./readDatabase";
+import { findUserIDByEmail } from "./readDatabase";
 
 const db = getFirestore(app);
+// const date = new Date();
+// const year = date.getFullYear();
+// const month = date.getMonth();
 
 // Add a new document with a generated ID
 export async function addNewUser(userData: userData) {
@@ -30,6 +25,7 @@ export async function addNewUser(userData: userData) {
       mentee: userData.mentee,
       mentor: userData.mentor,
       password: userData.password,
+      cohort: userData.cohort,
       phone: userData.phone,
     });
 
