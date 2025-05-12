@@ -30,7 +30,9 @@ export async function getUserData(userID: string) {
 }
 
 export async function logIn(email: string, password: string) {
+  console.log("login");
   const userID = await findUserIDByEmail(email);
+  console.log(userID);
   if (userID == null) {
     console.log("user not found.");
     return null;
@@ -74,7 +76,7 @@ export async function findUserIDByEmail(email: string) {
   const q = query(usersCol, where("email", "==", email));
 
   // 3. Execute the query
-  const snapshot: QuerySnapshot<DocumentData> = await getDocs(q);
+  const snapshot = await getDocs(q);
 
   // 4. Check results
   if (snapshot.empty) {
