@@ -6,14 +6,14 @@ import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 import { useTheme, useMediaQuery } from "@mui/material";
-
-import "./signIn.css";
 import { logIn } from "../firebase/readDatabase";
 import { useState } from "react";
 import type { userData } from "../firebase/dataInterfaces";
 import { useNavigate } from "react-router-dom";
+import "./signUp.css";
+import { addNewUser } from "../firebase/writeDatabase";
 
-export default function SignIn() {
+export default function SignUp() {
   const [errorMessage, setErrorMessage] = useState("");
   const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
@@ -30,9 +30,9 @@ export default function SignIn() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
-      let foundUserData = null;
       if (!password || !email || !firstName || !lastName || !cohort || !phone) {
         setError(true);
         setErrorMessage("Error: Please fill  all fields!");
@@ -42,6 +42,7 @@ export default function SignIn() {
       if (!cleanPhone(phone).valid) {
         setError(true);
         setErrorMessage("Please submit a phone number in the correct format!");
+        return;
       }
 
       if (!cleanCohort(cohort).valid) {
@@ -49,34 +50,34 @@ export default function SignIn() {
         setErrorMessage(
           "Please submit your cohort year in the correct format!"
         );
-      }
-
-      setUserData({
-        email: email,
-        firstName: firstName,
-        lastName: lastName,
-        cohort: parseInt(cohort),
-        password: password,
-        mentee: false,
-        mentor: false,
-        phone: 0,
-      });
-
-      const result = await logIn(email, password);
-      foundUserData = result?.userData;
-      if (foundUserData) {
-        setUserData(foundUserData);
-        console.log(foundUserData);
         return;
       }
 
-      if (foundUserData == null) {
-        setErrorMessage("Error: Username not found");
+      const newUser = {
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        cohort: cleanCohort(cohort).number,
+        password: password,
+        mentee: false,
+        mentor: false,
+        phone: cleanPhone(phone).number,
+      };
+
+      const result = await addNewUser(newUser);
+
+      if (result) {
+        console.log(result);
+        return;
+      }
+
+      if (result == null) {
+        setErrorMessage("Error: User not added.");
         setError(true);
         return;
       }
     } catch (error) {
-      setErrorMessage("Login failed. Please try again.");
+      setErrorMessage("Sign up failed. Please try again.");
       setError(true);
     }
   };
@@ -111,7 +112,7 @@ export default function SignIn() {
         </div>
 
         {/* Registration form */}
-        <form>
+        <form onSubmit={handleSignUp}>
           {/* Username input field */}
           <FormControl>
             <FormLabel>Email</FormLabel>
@@ -150,7 +151,7 @@ export default function SignIn() {
 
           {/* Cohort Year input field */}
           <FormControl>
-            <FormLabel>Last Name</FormLabel>
+            <FormLabel>Cohort Year</FormLabel>
             <Input
               name="cohort"
               type="number"
@@ -194,7 +195,7 @@ export default function SignIn() {
           )}
 
           {/* Submit button */}
-          <Button type="submit" sx={{ mt: 1 }} onClick={() => handleSignUp()}>
+          <Button type="submit" sx={{ mt: 1 }}>
             Sign Up
           </Button>
         </form>
@@ -204,8 +205,11 @@ export default function SignIn() {
 }
 
 function cleanPhone(phoneNum: string) {
-  phoneNum.replace("-", "");
-  phoneNum.replace(" ", "");
+  phoneNum = phoneNum.replace("-", "");
+  phoneNum = phoneNum.replace("-", "");
+  phoneNum = phoneNum.replace(" ", "");
+  phoneNum = phoneNum.replace(" ", "");
+  console.log(phoneNum);
 
   try {
     if (phoneNum.length != 10) {
@@ -222,7 +226,8 @@ function cleanCohort(cohort: string) {
     if (cohort.length == 4 && cohort.substring(0, 2) == "20") {
       return { valid: true, number: parseInt(cohort) };
     } else if (cohort.length == 2) {
-      return { valid: true, number: parseInt(cohort) + 2000 };
+      let num = parseInt(cohort) + 2000;
+      return { valid: true, number: num };
     }
     return { valid: false, number: 0 };
   } catch (err) {

@@ -6,12 +6,13 @@ import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 import Link from "@mui/joy/Link";
-import { theme, useMediaQuery } from "@mui/material";
+import { useTheme, useMediaQuery } from "@mui/material";
 
 import "./signIn.css";
 import { logIn } from "../firebase/readDatabase";
 import { useState } from "react";
 import type { userData } from "../firebase/dataInterfaces";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [errorMessage, setErrorMessage] = useState("");
@@ -19,6 +20,9 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState<userData>();
+
+  const navigate = useNavigate();
+  const theme = useTheme();
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -30,7 +34,7 @@ export default function SignIn() {
       foundUserData = result?.userData;
       if (foundUserData) {
         setUserData(foundUserData);
-        console.log(foundUserData);
+
         return;
       }
 
@@ -104,7 +108,7 @@ export default function SignIn() {
           Log in
         </Button>
         <Typography
-          endDecorator={<Link href="/sign-up">Sign up</Link>}
+          endDecorator={<Link href="/sign_up">Sign up</Link>}
           sx={{ fontSize: "sm", alignSelf: "center" }}
         >
           Don&apos;t have an account?
