@@ -6,6 +6,7 @@ import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 import Link from "@mui/joy/Link";
+import { theme, useMediaQuery } from "@mui/material";
 
 import "./signIn.css";
 import { logIn } from "../firebase/readDatabase";
@@ -18,6 +19,9 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState<userData>();
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleLogin = async (email: string, password: string) => {
     try {
@@ -46,7 +50,7 @@ export default function SignIn() {
       <CssBaseline />
       <Sheet
         sx={{
-          width: 300,
+          width: isSmallScreen ? "60%" : isMediumScreen ? "60%" : 500,
           mx: "auto", // margin left & right
           my: 4, // margin top & bottom
           py: 3, // padding top & bottom
