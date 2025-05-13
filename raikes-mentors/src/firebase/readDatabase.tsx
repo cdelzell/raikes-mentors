@@ -30,15 +30,17 @@ export async function getUserData(userID: string) {
 }
 
 export async function logIn(email: string, password: string) {
-  console.log("login");
   const userID = await findUserIDByEmail(email);
-  console.log(userID);
+
   if (userID == null) {
     console.log("user not found.");
     return null;
   } else {
     const userData = await findUserByUserID(userID);
     if (userData != null) {
+      console.log(userData);
+      console.log(userData.userData?.password);
+      console.log(password);
       if (userData.userData?.password == password) {
         console.log("User found!");
         return userData;
@@ -53,14 +55,11 @@ export async function findUserByUserID(userID: string) {
     const docRef = doc(db, "users", userID);
     const querySnapshot = await getDoc(docRef);
     let userData = null;
-    let userKey = "";
     if (querySnapshot.exists()) {
-      const userEntry = querySnapshot.data();
-      userKey = Object.keys(userEntry)[0];
-      userData = Object.values(userEntry)[0] as userData;
+      userData = querySnapshot.data() as userData;
     }
 
-    return { userKey, userData };
+    return { userID, userData };
   } catch (e) {
     console.error("Error finding user profile:", e);
     throw e;

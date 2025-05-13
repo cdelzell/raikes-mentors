@@ -209,7 +209,6 @@ function cleanPhone(phoneNum: string) {
   phoneNum = phoneNum.replace("-", "");
   phoneNum = phoneNum.replace(" ", "");
   phoneNum = phoneNum.replace(" ", "");
-  console.log(phoneNum);
 
   try {
     if (phoneNum.length != 10) {
