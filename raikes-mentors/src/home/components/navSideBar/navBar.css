@@ -1,4 +1,4 @@
-.position {
+.box {
   width: 30vw;
   height: 100vh;
   background-color: rgb(208, 228, 240);
@@ -6,5 +6,17 @@
   flex-direction: column;
   justify-content: center;
   align-items: left;
-  font-size: 6vw;
+  font-size: 4vw;
+  font-family: "Inter";
+}
+
+.linkWrapper {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 4vw;
+}
+
+.link {
+  margin-left: 2vw;
 }

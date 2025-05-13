@@ -83,7 +83,7 @@ export default function SignUp() {
   };
 
   return (
-    <main className="loginPage">
+    <main className="center">
       <CssBaseline />
       {/* Main signup form container */}
       <Sheet
@@ -115,7 +115,7 @@ export default function SignUp() {
         <form onSubmit={handleSignUp}>
           {/* Username input field */}
           <FormControl>
-            <FormLabel>Email</FormLabel>
+            <FormLabel sx={{ mt: ".5vw" }}>Email</FormLabel>
             <Input
               name="email"
               type="email"
@@ -127,7 +127,7 @@ export default function SignUp() {
 
           {/* First Name input field */}
           <FormControl>
-            <FormLabel>First Name</FormLabel>
+            <FormLabel sx={{ mt: ".5vw" }}>First Name</FormLabel>
             <Input
               name="firstName"
               type="text"
@@ -139,7 +139,7 @@ export default function SignUp() {
 
           {/* Last Name input field */}
           <FormControl>
-            <FormLabel>Last Name</FormLabel>
+            <FormLabel sx={{ mt: ".5vw" }}>Last Name</FormLabel>
             <Input
               name="firstName"
               type="text"
@@ -151,7 +151,7 @@ export default function SignUp() {
 
           {/* Cohort Year input field */}
           <FormControl>
-            <FormLabel>Cohort Year</FormLabel>
+            <FormLabel sx={{ mt: ".5vw" }}>Cohort Year</FormLabel>
             <Input
               name="cohort"
               type="number"
@@ -163,7 +163,7 @@ export default function SignUp() {
 
           {/* Cohort Year input field */}
           <FormControl>
-            <FormLabel>
+            <FormLabel sx={{ mt: ".5vw" }}>
               Phone Number (no dashes or extra spaces, please)
             </FormLabel>
             <Input
@@ -177,7 +177,7 @@ export default function SignUp() {
 
           {/* Password input field */}
           <FormControl>
-            <FormLabel>Password</FormLabel>
+            <FormLabel sx={{ mt: ".5vw" }}>Password</FormLabel>
             <Input
               name="password"
               type="password"
@@ -195,7 +195,7 @@ export default function SignUp() {
           )}
 
           {/* Submit button */}
-          <Button type="submit" sx={{ mt: 1 }}>
+          <Button type="submit" sx={{ mt: "1vw" }}>
             Sign Up
           </Button>
         </form>
