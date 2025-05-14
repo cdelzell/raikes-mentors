@@ -34,12 +34,12 @@ export default function Profile() {
 
   useEffect(() => {
     const stateUserKey = state?.userKey;
-    const stateUserProfile = state?.userProfile;
+    const stateUserData = state?.userData;
 
     try {
-      if (stateUserProfile && stateUserKey) {
+      if (stateUserData && stateUserKey) {
         setUserKey(stateUserKey);
-        setUserData(stateUserProfile);
+        setUserData(stateUserData);
       }
     } catch (err) {
       console.log("There was an error grabbing the user's data.");
