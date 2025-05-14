@@ -53,8 +53,7 @@ export default function Profile() {
       <div className="profileWrapper">
         <p>
           Welcome {userData?.firstName}! This is a place for connecting with
-          other Raikes students across cohorts, and hopefully a place for people
-          to connect!
+          other Raikes students across cohorts.
         </p>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import type { userData } from "./dataInterfaces";
+import type { mentees, mentors, userData } from "./dataInterfaces";
 import {
   getFirestore,
   collection,
@@ -21,7 +21,7 @@ export async function getUserData(userID: string) {
 
   if (docSnap.exists()) {
     console.log("Document data:", docSnap.data());
-    return docSnap.data();
+    return docSnap.data() as userData;
   } else {
     // docSnap.data() will be undefined in this case
     console.log("No such document!");
@@ -94,7 +94,7 @@ export async function getMentorData(mentorID: string) {
 
   if (docSnap.exists()) {
     console.log("Document data:", docSnap.data());
-    return docSnap.data();
+    return docSnap.data() as mentors;
   } else {
     // docSnap.data() will be undefined in this case
     console.log("No such document!");
@@ -109,7 +109,7 @@ export async function getMenteeData(menteeID: string) {
 
   if (docSnap.exists()) {
     console.log("Document data:", docSnap.data());
-    return docSnap.data();
+    return docSnap.data() as mentees;
   } else {
     // docSnap.data() will be undefined in this case
     console.log("No such document!");
