@@ -34,7 +34,7 @@ export default function SignIn() {
       foundUserData = result?.userData;
       if (foundUserData) {
         setUserData(foundUserData);
-        navigate("/home", {
+        navigate("/profile", {
           state: { userKey: result?.userID, userData: result?.userData },
         });
         return;

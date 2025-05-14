@@ -3,7 +3,7 @@ import SignIn from "./signIn/signIn.tsx";
 import SignUp from "./signUp/signUp.tsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
-import Home from "./home/home.tsx";
+import Profile from "./profile/profile.js";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SignIn />} />
         <Route path="/sign_up" element={<SignUp />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

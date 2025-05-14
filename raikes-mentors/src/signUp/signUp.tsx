@@ -68,6 +68,7 @@ export default function SignUp() {
 
       if (result) {
         console.log(result);
+        navigate("/profile", { state: { userKey: result, userInfo: newUser } });
         return;
       }
 
