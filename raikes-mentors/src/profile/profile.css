@@ -7,4 +7,6 @@
 .profileWrapper {
   width: 70vw;
   height: 100vh;
+  background-color: whitesmoke;
+  color: black;
 }
