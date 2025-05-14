@@ -11,15 +11,20 @@ import { useTheme, useMediaQuery } from "@mui/material";
 import "./signIn.css";
 import { logIn } from "../firebase/readDatabase";
 import { useState } from "react";
-import type { userData } from "../firebase/dataInterfaces";
+import type { UserData } from "../firebase/dataInterfaces";
 import { useNavigate } from "react-router-dom";
 
-export default function SignIn() {
+export default function SignIn({
+  setUserKey,
+  setUserData,
+}: {
+  setUserKey: (key: string) => void;
+  setUserData: (data: UserData) => void;
+}) {
   const [errorMessage, setErrorMessage] = useState("");
   const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userData, setUserData] = useState<userData>();
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -31,9 +36,9 @@ export default function SignIn() {
     try {
       let foundUserData = null;
       const result = await logIn(email, password);
-      foundUserData = result?.userData;
-      if (foundUserData) {
-        setUserData(foundUserData);
+      if (result?.userData && result?.userID) {
+        setUserData(result?.userData);
+        setUserKey(result.userID);
         navigate("/profile", {
           state: { userKey: result?.userID, userData: result?.userData },
         });

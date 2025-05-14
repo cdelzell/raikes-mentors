@@ -1,4 +1,4 @@
-export interface userData {
+export interface UserData {
   firstName: string;
   lastName: string;
   email: string;
@@ -9,12 +9,12 @@ export interface userData {
   phone: number;
 }
 
-export interface mentors {
+export interface Mentors {
   mentees: string[];
   userID: string;
 }
 
-export interface mentees {
+export interface Mentees {
   mentors: string[];
   userID: string;
 }

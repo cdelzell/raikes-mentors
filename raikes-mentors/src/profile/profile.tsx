@@ -24,13 +24,13 @@ Vision:
 import { useLocation } from "react-router-dom";
 import NavBar from "../components/navBar/navBar";
 import { useEffect, useState } from "react";
-import type { userData } from "../firebase/dataInterfaces";
+import type { UserData } from "../firebase/dataInterfaces";
 import "./profile.css";
 
 export default function Profile() {
   const { state } = useLocation();
   const [userKey, setUserKey] = useState("");
-  const [userData, setUserData] = useState<userData>();
+  const [userData, setUserData] = useState<UserData>();
 
   useEffect(() => {
     const stateUserKey = state?.userKey;
@@ -49,7 +49,7 @@ export default function Profile() {
 
   return (
     <div className="fullScreen">
-      <NavBar />
+      <NavBar userKey={userKey} userData={userData} />
       <div className="profileWrapper">
         <p>
           Welcome {userData?.firstName}! This is a place for connecting with

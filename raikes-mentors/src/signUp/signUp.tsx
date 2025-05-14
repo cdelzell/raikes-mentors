@@ -8,12 +8,18 @@ import Button from "@mui/joy/Button";
 import { useTheme, useMediaQuery } from "@mui/material";
 import { logIn } from "../firebase/readDatabase";
 import { useState } from "react";
-import type { userData } from "../firebase/dataInterfaces";
+import type { UserData } from "../firebase/dataInterfaces";
 import { useNavigate } from "react-router-dom";
 import "./signUp.css";
 import { addNewUser } from "../firebase/writeDatabase";
 
-export default function SignUp() {
+export default function SignUp({
+  setUserKey,
+  setUserData,
+}: {
+  setUserKey: (key: string) => void;
+  setUserData: (data: UserData) => void;
+}) {
   const [errorMessage, setErrorMessage] = useState("");
   const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
@@ -22,7 +28,6 @@ export default function SignUp() {
   const [lastName, setLastName] = useState("");
   const [cohort, setCohort] = useState("");
   const [phone, setPhone] = useState("");
-  const [userData, setUserData] = useState<userData>();
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -67,7 +72,8 @@ export default function SignUp() {
       const result = await addNewUser(newUser);
 
       if (result) {
-        console.log(result);
+        setUserKey(result);
+        setUserData(newUser);
         navigate("/profile", { state: { userKey: result, userInfo: newUser } });
         return;
       }

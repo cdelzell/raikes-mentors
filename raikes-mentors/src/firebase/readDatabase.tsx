@@ -1,4 +1,4 @@
-import type { mentees, mentors, userData } from "./dataInterfaces";
+import type { Mentees, Mentors, UserData } from "./dataInterfaces";
 import {
   getFirestore,
   collection,
@@ -21,7 +21,7 @@ export async function getUserData(userID: string) {
 
   if (docSnap.exists()) {
     console.log("Document data:", docSnap.data());
-    return docSnap.data() as userData;
+    return docSnap.data() as UserData;
   } else {
     // docSnap.data() will be undefined in this case
     console.log("No such document!");
@@ -56,7 +56,7 @@ export async function findUserByUserID(userID: string) {
     const querySnapshot = await getDoc(docRef);
     let userData = null;
     if (querySnapshot.exists()) {
-      userData = querySnapshot.data() as userData;
+      userData = querySnapshot.data() as UserData;
     }
 
     return { userID, userData };
@@ -94,7 +94,7 @@ export async function getMentorData(mentorID: string) {
 
   if (docSnap.exists()) {
     console.log("Document data:", docSnap.data());
-    return docSnap.data() as mentors;
+    return docSnap.data() as Mentors;
   } else {
     // docSnap.data() will be undefined in this case
     console.log("No such document!");
@@ -109,10 +109,18 @@ export async function getMenteeData(menteeID: string) {
 
   if (docSnap.exists()) {
     console.log("Document data:", docSnap.data());
-    return docSnap.data() as mentees;
+    return docSnap.data() as Mentees;
   } else {
     // docSnap.data() will be undefined in this case
     console.log("No such document!");
     return null;
   }
+}
+
+export async function getNewMentor(menteeID: string) {
+  const menteeInfo = await getMenteeData(menteeID);
+  //get list of all mentors
+  //filter list by mentors the user already has
+  //filter list by mentors that are younger or same cohort as the mentee
+  //choose random mentor from the list
 }

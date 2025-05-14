@@ -1,4 +1,4 @@
-import type { userData } from "./dataInterfaces";
+import type { UserData } from "./dataInterfaces";
 import {
   getFirestore,
   collection,
@@ -6,6 +6,7 @@ import {
   doc,
   updateDoc,
   arrayUnion,
+  setDoc,
 } from "firebase/firestore";
 import { app } from "../firebase";
 import { findUserIDByEmail } from "./readDatabase";
@@ -16,7 +17,7 @@ const db = getFirestore(app);
 // const month = date.getMonth();
 
 // Add a new document with a generated ID
-export async function addNewUser(userData: userData) {
+export async function addNewUser(userData: UserData) {
   try {
     const docRef = await addDoc(collection(db, "users"), {
       firstName: userData.firstName,
@@ -37,7 +38,22 @@ export async function addNewUser(userData: userData) {
   }
 }
 
-export async function addNewMentor(userData: userData) {
+export async function editUserField(
+  userID: string,
+  updates: Partial<UserData>
+) {
+  try {
+    const userRef = doc(db, "users", userID);
+
+    await updateDoc(userRef, updates);
+    console.log("User updated:", updates);
+  } catch (err) {
+    console.error("error!");
+    throw err;
+  }
+}
+
+export async function addNewMentor(userData: UserData) {
   try {
     let userID = await findUserIDByEmail(userData.email);
 
@@ -45,7 +61,7 @@ export async function addNewMentor(userData: userData) {
       return null;
     }
 
-    const docRef = await addDoc(collection(db, "users", userID), {
+    const docRef = await addDoc(collection(db, "mentors", userID), {
       mentees: [] as string[],
       userID: userID,
     });
@@ -59,8 +75,8 @@ export async function addNewMentor(userData: userData) {
 }
 
 export async function addMenteeToMentor(
-  userData: userData,
-  menteeData: userData
+  userData: UserData,
+  menteeData: UserData
 ) {
   try {
     let userID = await findUserIDByEmail(userData.email);
@@ -84,7 +100,7 @@ export async function addMenteeToMentor(
   }
 }
 
-export async function addNewMentee(userData: userData) {
+export async function addNewMentee(userData: UserData) {
   try {
     let userID = await findUserIDByEmail(userData.email);
 
@@ -92,13 +108,16 @@ export async function addNewMentee(userData: userData) {
       return null;
     }
 
-    const docRef = await addDoc(collection(db, "users", userID), {
-      mentees: [] as string[],
+    // create a DocumentReference at /mentees/{userID}
+    const menteeDocRef = doc(db, "mentees", userID);
+
+    // write your data there
+    await setDoc(menteeDocRef, {
+      mentors: [] as string[],
       userID: userID,
     });
 
-    console.log("Document written with ID: ", docRef.id);
-    return docRef.id; // Return the new document ID if needed
+    return userID; // Return the new document ID if needed
   } catch (e) {
     console.error("Error adding document: ", e);
     throw e; // Re-throw the error to handle it elsewhere
@@ -106,8 +125,8 @@ export async function addNewMentee(userData: userData) {
 }
 
 export async function addMentorToMentee(
-  userData: userData,
-  mentorData: userData
+  userData: UserData,
+  mentorData: UserData
 ) {
   try {
     let userID = await findUserIDByEmail(userData.email);
