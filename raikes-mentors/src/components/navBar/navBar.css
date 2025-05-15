@@ -15,9 +15,17 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  top: 4vw;
+  top: 7vw;
 }
 
 .link {
   margin-left: 2vw;
+}
+
+.raikesImage {
+  width: 11vw;
+  height: 4vw;
+  position: absolute;
+  top: 1vw;
+  margin-left: 1.5vw;
 }

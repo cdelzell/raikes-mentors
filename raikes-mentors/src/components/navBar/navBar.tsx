@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "./navBar.css";
 import type { UserData } from "../../firebase/dataInterfaces";
+import raikes from "../../assets/raikes.png";
 
 export default function NavBar({
   userKey,
@@ -35,6 +36,7 @@ export default function NavBar({
           mentees
         </Link>
       </div>
+      <img src={raikes} className="raikesImage" />
     </div>
   );
 }

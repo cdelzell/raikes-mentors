@@ -8,14 +8,15 @@ export default function UserProfile(userInfo: UserData) {
           {userInfo.firstName} {userInfo.lastName}
         </h3>
         <div className="year">
-          Cohort: <span style={{ color: "crimson" }}>{userInfo.cohort}</span>
+          Cohort: <span style={{ color: "#d00000" }}>{userInfo.cohort}</span>
         </div>
         <div className="phone">
-          Phone: <span style={{ color: "crimson" }}>{userInfo.phone}</span>
+          Phone: <span style={{ color: "#d00000" }}>{userInfo.phone}</span>
         </div>
         <div className="phone">
-          Email: <span style={{ color: "crimson" }}>{userInfo.email}</span>
+          Email: <span style={{ color: "#d00000" }}>{userInfo.email}</span>
         </div>
+        {/* <button>Contact me!</button> */}
       </div>
     </div>
   );
