@@ -74,7 +74,7 @@ export default function SignUp({
       if (result) {
         setUserKey(result);
         setUserData(newUser);
-        navigate("/profile", { state: { userKey: result, userInfo: newUser } });
+        navigate("/profile", { state: { userKey: result, userData: newUser } });
         return;
       }
 

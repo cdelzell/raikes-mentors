@@ -57,6 +57,7 @@ export default function Mentors() {
         setCheckMentors(false);
       })();
     }
+    setCheckMentors(false);
   }, [checkMentors]);
 
   const handleSignUp = () => {
@@ -121,7 +122,7 @@ export default function Mentors() {
           <button onClick={handleMentorConnect}>Connect!</button>
         </div>
       )}
-      {!isMentee && userData && (
+      {!isMentee && (
         <div className="menteeSignUp">
           <h2>
             Sign up to be a mentee! Meet with students from upper-level cohorts
