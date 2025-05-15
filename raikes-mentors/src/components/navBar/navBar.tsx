@@ -28,7 +28,7 @@ export default function NavBar({
           mentors
         </Link>
         <Link
-          to={""}
+          to={"/mentees"}
           state={{ userKey: userKey, userData: userData }}
           className="link"
         >

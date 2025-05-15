@@ -14,17 +14,22 @@ import { app } from "../firebase";
 
 const db = getFirestore(app);
 
+function getDate(): { year: number; month: number } {
+  const date = new Date();
+  return { year: date.getFullYear(), month: date.getMonth() };
+}
+
+// Usage
+const { year, month } = getDate();
+
 // Read information about a user given a userID
 export async function getUserData(userID: string) {
   const docRef = doc(db, "users", userID);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
     return docSnap.data() as UserData;
   } else {
-    // docSnap.data() will be undefined in this case
-    console.log("No such document!");
     return null;
   }
 }
@@ -33,16 +38,11 @@ export async function logIn(email: string, password: string) {
   const userID = await findUserIDByEmail(email);
 
   if (userID == null) {
-    console.log("user not found.");
     return null;
   } else {
     const userData = await findUserByUserID(userID);
     if (userData != null) {
-      console.log(userData);
-      console.log(userData.userData?.password);
-      console.log(password);
       if (userData.userData?.password == password) {
-        console.log("User found!");
         return userData;
       }
     }
@@ -93,11 +93,8 @@ export async function getMentorData(mentorID: string) {
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
     return docSnap.data() as Mentors;
   } else {
-    // docSnap.data() will be undefined in this case
-    console.log("No such document!");
     return null;
   }
 }
@@ -108,19 +105,45 @@ export async function getMenteeData(menteeID: string) {
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
     return docSnap.data() as Mentees;
   } else {
-    // docSnap.data() will be undefined in this case
-    console.log("No such document!");
     return null;
   }
 }
 
 export async function getNewMentor(menteeID: string) {
   const menteeInfo = await getMenteeData(menteeID);
+  const userData = await getUserData(menteeID);
   //get list of all mentors
   //filter list by mentors the user already has
   //filter list by mentors that are younger or same cohort as the mentee
   //choose random mentor from the list
+  let yearCutoff = year - 3;
+
+  if (month < 7) {
+    yearCutoff -= 1;
+  }
+
+  const q = query(
+    collection(db, "users"),
+    where("mentor", "==", true),
+    where("cohort", "<", userData?.cohort),
+    where("cohort", ">", yearCutoff)
+  );
+
+  const snapshot = await getDocs(q);
+  const mentors = snapshot.docs.map((d) => d.id);
+  const currentMentors = menteeInfo?.mentors;
+  let possibleMentors = [] as string[];
+  possibleMentors = mentors.filter((id) => id != menteeID);
+
+  if (currentMentors) {
+    possibleMentors = mentors.filter((id) => !currentMentors.includes(id));
+  }
+
+  if (!possibleMentors) {
+    return null;
+  }
+
+  return possibleMentors[Math.floor(Math.random() * possibleMentors.length)];
 }

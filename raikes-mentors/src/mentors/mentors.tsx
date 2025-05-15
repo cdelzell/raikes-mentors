@@ -3,9 +3,17 @@ import NavBar from "../components/navBar/navBar";
 import { useEffect, useState } from "react";
 import type { UserData } from "../firebase/dataInterfaces";
 import "./mentors.css";
-import { getMenteeData, getUserData } from "../firebase/readDatabase";
+import {
+  getMenteeData,
+  getNewMentor,
+  getUserData,
+} from "../firebase/readDatabase";
 import UserProfile from "../components/userProfile/userProfile";
-import { addNewMentee, editUserField } from "../firebase/writeDatabase";
+import {
+  addMentorToMentee,
+  addNewMentee,
+  editUserField,
+} from "../firebase/writeDatabase";
 
 export default function Mentors() {
   const { state } = useLocation();
@@ -13,17 +21,19 @@ export default function Mentors() {
   const [userData, setUserData] = useState<UserData>();
   const [mentors, setMentors] = useState<UserData[]>();
   const [isMentee, setIsMentee] = useState(false);
+  const [mentorAvailable, setMentorAvailable] = useState(false);
+  const [checkMentors, setCheckMentors] = useState(false);
 
   useEffect(() => {
     const stateUserKey = state?.userKey;
     const stateUserData = state?.userData;
-    console.log(stateUserData);
 
     try {
       if (stateUserData && stateUserKey) {
         setUserKey(stateUserKey);
         setUserData(stateUserData);
         setIsMentee(stateUserData.mentee);
+        setCheckMentors(true);
       }
     } catch (err) {
       console.log("There was an error grabbing the user's data.");
@@ -32,29 +42,28 @@ export default function Mentors() {
   }, [state]);
 
   useEffect(() => {
-    if (userKey && userData?.mentor == true) {
+    if (userKey && userData?.mentee == true) {
       (async () => {
         let menteeData = await getMenteeData(userKey);
         let mentorsInfo = [] as UserData[];
         for (const i in menteeData?.mentors) {
-          let mentor = await getUserData(i);
+          let mentor = await getUserData(menteeData.mentors[parseInt(i)]);
           if (mentor) {
             mentorsInfo.push(mentor);
           }
         }
         setMentors(mentorsInfo);
+        setCheckMentors(false);
       })();
     }
-  }, [userKey]);
+  }, [checkMentors]);
 
   const handleSignUp = () => {
     (async () => {
-      console.log(userData);
       if (userData) {
         addNewMentee(userData);
         editUserField(userKey, { mentee: true });
         setIsMentee(true);
-        console.log("success!");
       }
     })();
   };
@@ -62,8 +71,16 @@ export default function Mentors() {
   const handleMentorConnect = () => {
     (async () => {
       if (userData) {
-        addNewMentee(userData);
-        setIsMentee(true);
+        const newMentorID = await getNewMentor(userKey);
+        if (newMentorID) {
+          const newMentor = await getUserData(newMentorID);
+          console.log(newMentor);
+          if (newMentor) {
+            mentors?.push(newMentor);
+            addMentorToMentee(userData, newMentor);
+            setCheckMentors(true);
+          }
+        }
       }
     })();
   };
@@ -71,9 +88,21 @@ export default function Mentors() {
   return (
     <div className="fullScreen">
       <NavBar userKey={userKey} userData={userData} />
-      <div className="profileWrapper"></div>
-      {mentors && mentors.map((mentor, index) => <UserProfile {...mentor} />)}
-      {isMentee && !mentors && (
+      <div className="profileWrapper">
+        <div className="mentors">
+          {mentors &&
+            mentors.map((mentor, index) => (
+              <UserProfile key={index} {...mentor} />
+            ))}
+        </div>
+
+        <div className="connect">
+          <h2>Connect with a new mentor!</h2>
+          <button onClick={handleMentorConnect}>Connect!</button>
+        </div>
+      </div>
+
+      {isMentee && mentors?.length == 0 && (
         <div className="menteeSignUp">
           <h2>
             You haven't connected with any mentors yet! Would you like to

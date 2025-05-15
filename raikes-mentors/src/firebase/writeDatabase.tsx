@@ -61,13 +61,16 @@ export async function addNewMentor(userData: UserData) {
       return null;
     }
 
-    const docRef = await addDoc(collection(db, "mentors", userID), {
+    // create a DocumentReference at /mentees/{userID}
+    const mentorDocRef = doc(db, "mentors", userID);
+
+    // write your data there
+    await setDoc(mentorDocRef, {
       mentees: [] as string[],
       userID: userID,
     });
 
-    console.log("Document written with ID: ", docRef.id);
-    return docRef.id; // Return the new document ID if needed
+    return userID; // Return the new document ID if needed
   } catch (e) {
     console.error("Error adding document: ", e);
     throw e; // Re-throw the error to handle it elsewhere

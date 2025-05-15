@@ -8,6 +8,7 @@ import Mentors from "./mentors/mentors.tsx";
 import NavBar from "./components/navBar/navBar.tsx";
 import { useState } from "react";
 import type { UserData } from "./firebase/dataInterfaces.tsx";
+import Mentees from "./mentees/mentees.tsx";
 
 function App() {
   const [userKey, setUserKey] = useState<string>("");
@@ -37,12 +38,9 @@ function App() {
               <SignUp setUserKey={setUserKey} setUserData={setUserData} />
             }
           />
-
-          {/* now every page under here will see the same NavBar props */}
           <Route path="/profile" element={<Profile />} />
           <Route path="/mentors" element={<Mentors />} />
-
-          {/* …etc… */}
+          <Route path="/mentees" element={<Mentees />} />
         </Routes>
       </div>
     </BrowserRouter>
