@@ -14,12 +14,13 @@ import {
   addNewMentee,
   editUserField,
 } from "../firebase/writeDatabase";
+import { CircularProgress } from "@mui/material";
 
 export default function Mentors() {
   const { state } = useLocation();
   const [userKey, setUserKey] = useState("");
   const [userData, setUserData] = useState<UserData>();
-  const [mentors, setMentors] = useState<UserData[]>();
+  const [mentors, setMentors] = useState<UserData[]>([]);
   const [isMentee, setIsMentee] = useState(false);
   const [mentorAvailable, setMentorAvailable] = useState(false);
   const [checkMentors, setCheckMentors] = useState(false);
@@ -74,7 +75,6 @@ export default function Mentors() {
         const newMentorID = await getNewMentor(userKey);
         if (newMentorID) {
           const newMentor = await getUserData(newMentorID);
-          console.log(newMentor);
           if (newMentor) {
             mentors?.push(newMentor);
             addMentorToMentee(userData, newMentor);
@@ -85,22 +85,32 @@ export default function Mentors() {
     })();
   };
 
+  if (checkMentors) {
+    return (
+      <>
+        <NavBar userKey={userKey} userData={userData} />
+      </>
+    );
+  }
+
   return (
     <div className="fullScreen">
       <NavBar userKey={userKey} userData={userData} />
-      <div className="profileWrapper">
-        <div className="mentors">
-          {mentors &&
-            mentors.map((mentor, index) => (
-              <UserProfile key={index} {...mentor} />
-            ))}
-        </div>
+      {isMentee && mentors?.length != 0 && (
+        <div className="profileWrapper">
+          <div className="mentors">
+            {mentors &&
+              mentors.map((mentor, index) => (
+                <UserProfile key={index} {...mentor} />
+              ))}
+          </div>
 
-        <div className="connect">
-          <h2>Connect with a new mentor!</h2>
-          <button onClick={handleMentorConnect}>Connect!</button>
+          <div className="connect">
+            <h2>Connect with a new mentor!</h2>
+            <button onClick={handleMentorConnect}>Connect!</button>
+          </div>
         </div>
-      </div>
+      )}
 
       {isMentee && mentors?.length == 0 && (
         <div className="menteeSignUp">
@@ -111,7 +121,7 @@ export default function Mentors() {
           <button onClick={handleMentorConnect}>Connect!</button>
         </div>
       )}
-      {!isMentee && (
+      {!isMentee && userData && (
         <div className="menteeSignUp">
           <h2>
             Sign up to be a mentee! Meet with students from upper-level cohorts

@@ -73,6 +73,9 @@ export default function Mentees() {
       <NavBar userKey={userKey} userData={userData} />
       <div className="profileWrapper"></div>
       {mentees && mentees.map((mentee, index) => <UserProfile {...mentee} />)}
+      {mentees?.length == 0 && (
+        <div className="menteeSignUp empty">No mentees yet!</div>
+      )}
       {!isMentor && (
         <div className="menteeSignUp">
           <h2>
