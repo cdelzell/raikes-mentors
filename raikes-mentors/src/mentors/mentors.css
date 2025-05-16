@@ -63,7 +63,7 @@
 .connect button {
   width: 18vw;
   height: 3vw;
-  background-color: #d0000037;
+  background-color: #ffffffa7;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   font-size: 1.1vw;
 }
@@ -72,24 +72,27 @@
   position: relative;
   margin-top: 2vw;
   width: 20vw;
-  height: 7vw;
+  height: 5vw;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   flex-direction: row;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.705);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 1vw;
   z-index: 100;
 }
 
 .popup button {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0);
   position: absolute;
+  top: 0.2vw;
+  right: 0.2vw;
+  box-shadow: none;
+  margin-left: 1vw;
+  margin-bottom: 4vw;
   border-radius: 100%;
-  top: 0.5vw;
-  right: 0.5vw;
   width: 1.5vw;
   height: 1.5vw;
   padding: 0;

@@ -9,4 +9,6 @@
   height: 100vh;
   background-color: whitesmoke;
   color: black;
+  background-image: url("/src/assets/fadedRed.png");
+  background-size: cover;
 }

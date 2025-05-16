@@ -130,15 +130,10 @@ export default function Mentors() {
           {!mentorAvailable && requestedMentor && (
             <div className="connect">
               <div className="popup">
-                <button onClick={handlePopup}>X</button>
-                <div
-                  style={{
-                    position: "absolute",
-                    bottom: "1vw",
-                  }}
-                >
+                <div style={{ position: "absolute", bottom: ".6vw" }}>
                   No new mentors available. Please check another time!
                 </div>
+                <button onClick={handlePopup}>X</button>
               </div>
             </div>
           )}

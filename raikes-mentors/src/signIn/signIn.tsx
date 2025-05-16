@@ -60,7 +60,7 @@ export default function SignIn({
   };
 
   return (
-    <main className="center" style={{ backgroundImage: {} }}>
+    <main className="center">
       <CssBaseline />
       <Sheet
         sx={{
