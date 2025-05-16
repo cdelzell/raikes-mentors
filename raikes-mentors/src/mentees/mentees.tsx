@@ -15,13 +15,17 @@ import {
   addNewMentor,
   editUserField,
 } from "../firebase/writeDatabase";
+import CircularProgress from "@mui/material/CircularProgress";
+import { muiTheme } from "../theme";
+import { ThemeProvider } from "@mui/material";
 
 export default function Mentees() {
   const { state } = useLocation();
   const [userKey, setUserKey] = useState("");
   const [userData, setUserData] = useState<UserData>();
-  const [mentees, setMentees] = useState<UserData[]>();
+  const [mentees, setMentees] = useState<UserData[]>([]);
   const [isMentor, setIsMentor] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const stateUserKey = state?.userKey;
@@ -46,15 +50,16 @@ export default function Mentees() {
         let menteeData = await getMentorData(userKey);
         let menteesInfo = [] as UserData[];
         for (const i in menteeData?.mentees) {
-          let mentee = await getUserData(i);
+          let mentee = await getUserData(menteeData.mentees[parseInt(i)]);
           if (mentee) {
             menteesInfo.push(mentee);
           }
         }
         setMentees(menteesInfo);
+        setReady(true);
       })();
     }
-  }, [userKey]);
+  }, [isMentor]);
 
   const handleSignUp = () => {
     (async () => {
@@ -68,15 +73,34 @@ export default function Mentees() {
     })();
   };
 
+  if (!ready) {
+    return (
+      <div className="fullScreen">
+        <NavBar userKey={userKey} userData={userData} />
+        <div className="loading">
+          <ThemeProvider theme={muiTheme}>
+            <CircularProgress color="primary" />
+          </ThemeProvider>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="fullScreen">
       <NavBar userKey={userKey} userData={userData} />
-      <div className="profileWrapper"></div>
-      {mentees && mentees.map((mentee, index) => <UserProfile {...mentee} />)}
-      {mentees?.length == 0 && (
-        <div className="menteeSignUp empty">No mentees yet!</div>
-      )}
-      {!isMentor && (
+      <div className="profileWrapper">
+        {mentees?.length != 0 &&
+          ready &&
+          mentees.map((mentee, index) => (
+            <UserProfile key={index} {...mentee} />
+          ))}
+        {mentees?.length == 0 && (
+          <div className="menteeSignUp empty">No mentees yet!</div>
+        )}
+      </div>
+
+      {!isMentor && ready && (
         <div className="menteeSignUp">
           <h2>
             Sign up to be a mentor! Meet with students from lower cohorts in

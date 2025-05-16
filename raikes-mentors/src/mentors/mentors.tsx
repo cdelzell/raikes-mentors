@@ -10,12 +10,14 @@ import {
 } from "../firebase/readDatabase";
 import UserProfile from "../components/userProfile/userProfile";
 import {
+  addMenteeToMentor,
   addMentorToMentee,
   addNewMentee,
   editUserField,
 } from "../firebase/writeDatabase";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, ThemeProvider } from "@mui/material";
 import { Dialog } from "@mui/material";
+import { muiTheme } from "../theme";
 
 export default function Mentors() {
   const { state } = useLocation();
@@ -79,12 +81,11 @@ export default function Mentors() {
           if (newMentor) {
             setMentors((prev) => [...prev, newMentor]);
             addMentorToMentee(userData, newMentor);
-            console.log(newMentor);
+            addMenteeToMentor(newMentor, userData);
           }
         } else {
           setMentorAvailable(false);
           setRequestedMentor(true);
-          console.log(mentorAvailable);
         }
       }
     })();
@@ -99,7 +100,9 @@ export default function Mentors() {
       <div className="fullScreen">
         <NavBar userKey={userKey} userData={userData} />
         <div className="loading">
-          <CircularProgress />
+          <ThemeProvider theme={muiTheme}>
+            <CircularProgress color="primary" />
+          </ThemeProvider>
         </div>
       </div>
     );
