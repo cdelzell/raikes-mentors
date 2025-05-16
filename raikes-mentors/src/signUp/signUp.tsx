@@ -12,6 +12,8 @@ import type { UserData } from "../firebase/dataInterfaces";
 import { useNavigate } from "react-router-dom";
 import "./signUp.css";
 import { addNewUser } from "../firebase/writeDatabase";
+import { joyTheme } from "../theme";
+import { CssVarsProvider } from "@mui/joy/styles";
 
 export default function SignUp({
   setUserKey,
@@ -110,102 +112,112 @@ export default function SignUp({
         }}
         variant="outlined"
       >
-        {/* Header section */}
-        <div>
-          <Typography level="h1" component="h1">
-            <b>Welcome!</b>
-          </Typography>
-          <Typography level="body-md">Sign up to continue.</Typography>
-        </div>
-
-        {/* Registration form */}
-        <form onSubmit={handleSignUp}>
-          {/* Username input field */}
-          <FormControl>
-            <FormLabel sx={{ mt: ".5vw" }}>Email</FormLabel>
-            <Input
-              name="email"
-              type="email"
-              placeholder="student@gmail.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </FormControl>
-
-          {/* First Name input field */}
-          <FormControl>
-            <FormLabel sx={{ mt: ".5vw" }}>First Name</FormLabel>
-            <Input
-              name="firstName"
-              type="text"
-              placeholder="jane"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-          </FormControl>
-
-          {/* Last Name input field */}
-          <FormControl>
-            <FormLabel sx={{ mt: ".5vw" }}>Last Name</FormLabel>
-            <Input
-              name="firstName"
-              type="text"
-              placeholder="doe"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-          </FormControl>
-
-          {/* Cohort Year input field */}
-          <FormControl>
-            <FormLabel sx={{ mt: ".5vw" }}>Cohort Year</FormLabel>
-            <Input
-              name="cohort"
-              type="number"
-              placeholder="2025"
-              value={cohort}
-              onChange={(e) => setCohort(e.target.value)}
-            />
-          </FormControl>
-
-          {/* Cohort Year input field */}
-          <FormControl>
-            <FormLabel sx={{ mt: ".5vw" }}>
-              Phone Number (no dashes or extra spaces, please)
-            </FormLabel>
-            <Input
-              name="phone"
-              type="phone"
-              placeholder="6309454957"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          </FormControl>
-
-          {/* Password input field */}
-          <FormControl>
-            <FormLabel sx={{ mt: ".5vw" }}>Password</FormLabel>
-            <Input
-              name="password"
-              type="password"
-              placeholder="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </FormControl>
-
-          {/* Error message display */}
-          {error && (
-            <Typography sx={{ color: "red", fontSize: "sm" }}>
-              {errorMessage}
+        <CssVarsProvider theme={joyTheme}>
+          {/* Header section */}
+          <div>
+            <Typography level="h1" component="h1">
+              <b>Welcome!</b>
             </Typography>
-          )}
+            <Typography level="body-md">Sign up to continue.</Typography>
+          </div>
 
-          {/* Submit button */}
-          <Button type="submit" sx={{ mt: "1vw" }}>
-            Sign Up
-          </Button>
-        </form>
+          {/* Registration form */}
+          <form onSubmit={handleSignUp}>
+            {/* Username input field */}
+            <FormControl>
+              <FormLabel sx={{ mt: ".5vw" }}>Email</FormLabel>
+              <Input
+                name="email"
+                type="email"
+                placeholder="student@gmail.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </FormControl>
+
+            {/* First Name input field */}
+            <FormControl>
+              <FormLabel sx={{ mt: ".5vw" }}>First Name</FormLabel>
+              <Input
+                name="firstName"
+                type="text"
+                placeholder="jane"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </FormControl>
+
+            {/* Last Name input field */}
+            <FormControl>
+              <FormLabel sx={{ mt: ".5vw" }}>Last Name</FormLabel>
+              <Input
+                name="firstName"
+                type="text"
+                placeholder="doe"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </FormControl>
+
+            {/* Cohort Year input field */}
+            <FormControl>
+              <FormLabel sx={{ mt: ".5vw" }}>Cohort Year</FormLabel>
+              <Input
+                name="cohort"
+                type="number"
+                placeholder="2025"
+                value={cohort}
+                onChange={(e) => setCohort(e.target.value)}
+              />
+            </FormControl>
+
+            {/* Cohort Year input field */}
+            <FormControl>
+              <FormLabel sx={{ mt: ".5vw" }}>
+                Phone Number (no dashes or extra spaces, please)
+              </FormLabel>
+              <Input
+                name="phone"
+                type="phone"
+                placeholder="6309454957"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </FormControl>
+
+            {/* Password input field */}
+            <FormControl>
+              <FormLabel sx={{ mt: ".5vw" }}>Password</FormLabel>
+              <Input
+                name="password"
+                type="password"
+                placeholder="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </FormControl>
+
+            {/* Error message display */}
+            {error && (
+              <Typography sx={{ color: "red", fontSize: "sm" }}>
+                {errorMessage}
+              </Typography>
+            )}
+
+            {/* Submit button */}
+            <Button
+              type="submit"
+              sx={{
+                mt: "1vw",
+                "&:hover": {
+                  backgroundColor: "#a70e0e",
+                },
+              }}
+            >
+              Sign Up
+            </Button>
+          </form>
+        </CssVarsProvider>
       </Sheet>
     </main>
   );

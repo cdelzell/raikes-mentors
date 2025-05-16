@@ -6,13 +6,16 @@ import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 import Link from "@mui/joy/Link";
-import { useTheme, useMediaQuery } from "@mui/material";
+import { useTheme, useMediaQuery, ThemeProvider } from "@mui/material";
 
 import "./signIn.css";
 import { logIn } from "../firebase/readDatabase";
 import { useState } from "react";
 import type { UserData } from "../firebase/dataInterfaces";
 import { useNavigate } from "react-router-dom";
+import { joyTheme } from "../theme";
+import redBackground from "../assets/redBackground.avif";
+import { CssVarsProvider } from "@mui/joy/styles";
 
 export default function SignIn({
   setUserKey,
@@ -57,7 +60,7 @@ export default function SignIn({
   };
 
   return (
-    <main className="center">
+    <main className="center" style={{ backgroundImage: {} }}>
       <CssBaseline />
       <Sheet
         sx={{
@@ -74,52 +77,63 @@ export default function SignIn({
         }}
         variant="outlined"
       >
-        <div>
-          <Typography level="h4" component="h1">
-            <b>Welcome!</b>
+        <CssVarsProvider theme={joyTheme}>
+          <div>
+            <Typography level="h4" component="h1">
+              <b>Welcome!</b>
+            </Typography>
+            <Typography level="body-sm">Sign in to continue.</Typography>
+          </div>
+          <FormControl>
+            <FormLabel>Email</FormLabel>
+            <Input
+              // html input attribute
+              name="email"
+              type="email"
+              placeholder="raikes@email.com"
+              value={email}
+              onChange={(input) => setEmail(input.target.value)}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Password</FormLabel>
+            <Input
+              // html input attribute
+              name="password"
+              type="password"
+              placeholder="password"
+              value={password}
+              onChange={(input) => setPassword(input.target.value)}
+            />
+          </FormControl>
+          {/* Error message display */}
+          {error && (
+            <Typography sx={{ color: "red", fontSize: "sm" }}>
+              {errorMessage}
+            </Typography>
+          )}
+          <Button
+            sx={{
+              mt: 1,
+              "&:hover": {
+                backgroundColor: "#a70e0e",
+              },
+            }}
+            onClick={() => handleLogin(email, password)}
+          >
+            Log in
+          </Button>
+          <Typography
+            endDecorator={
+              <Link href="/sign_up" sx={{ color: "#d00000" }}>
+                Sign up
+              </Link>
+            }
+            sx={{ fontSize: "sm", alignSelf: "center" }}
+          >
+            Don&apos;t have an account?
           </Typography>
-          <Typography level="body-sm">Sign in to continue.</Typography>
-        </div>
-        <FormControl>
-          <FormLabel>Email</FormLabel>
-          <Input
-            // html input attribute
-            name="email"
-            type="email"
-            placeholder="raikes@email.com"
-            value={email}
-            onChange={(input) => setEmail(input.target.value)}
-          />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Password</FormLabel>
-          <Input
-            // html input attribute
-            name="password"
-            type="password"
-            placeholder="password"
-            value={password}
-            onChange={(input) => setPassword(input.target.value)}
-          />
-        </FormControl>
-        {/* Error message display */}
-        {error && (
-          <Typography sx={{ color: "red", fontSize: "sm" }}>
-            {errorMessage}
-          </Typography>
-        )}
-        <Button
-          sx={{ mt: 1 /* margin top */ }}
-          onClick={() => handleLogin(email, password)}
-        >
-          Log in
-        </Button>
-        <Typography
-          endDecorator={<Link href="/sign_up">Sign up</Link>}
-          sx={{ fontSize: "sm", alignSelf: "center" }}
-        >
-          Don&apos;t have an account?
-        </Typography>
+        </CssVarsProvider>
       </Sheet>
     </main>
   );
