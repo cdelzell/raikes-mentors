@@ -15,15 +15,17 @@ import {
   editUserField,
 } from "../firebase/writeDatabase";
 import { CircularProgress } from "@mui/material";
+import { Dialog } from "@mui/material";
 
 export default function Mentors() {
   const { state } = useLocation();
   const [userKey, setUserKey] = useState("");
   const [userData, setUserData] = useState<UserData>();
   const [mentors, setMentors] = useState<UserData[]>([]);
-  const [isMentee, setIsMentee] = useState(false);
+  const [isMentee, setIsMentee] = useState<boolean>();
+  const [requestedMentor, setRequestedMentor] = useState(false);
   const [mentorAvailable, setMentorAvailable] = useState(false);
-  const [checkMentors, setCheckMentors] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const stateUserKey = state?.userKey;
@@ -34,7 +36,6 @@ export default function Mentors() {
         setUserKey(stateUserKey);
         setUserData(stateUserData);
         setIsMentee(stateUserData.mentee);
-        setCheckMentors(true);
       }
     } catch (err) {
       console.log("There was an error grabbing the user's data.");
@@ -54,11 +55,10 @@ export default function Mentors() {
           }
         }
         setMentors(mentorsInfo);
-        setCheckMentors(false);
+        setReady(true);
       })();
     }
-    setCheckMentors(false);
-  }, [checkMentors]);
+  }, [isMentee]);
 
   const handleSignUp = () => {
     (async () => {
@@ -77,27 +77,38 @@ export default function Mentors() {
         if (newMentorID) {
           const newMentor = await getUserData(newMentorID);
           if (newMentor) {
-            mentors?.push(newMentor);
+            setMentors((prev) => [...prev, newMentor]);
             addMentorToMentee(userData, newMentor);
-            setCheckMentors(true);
+            console.log(newMentor);
           }
+        } else {
+          setMentorAvailable(false);
+          setRequestedMentor(true);
+          console.log(mentorAvailable);
         }
       }
     })();
   };
 
-  if (checkMentors) {
+  const handlePopup = () => {
+    setMentorAvailable(true);
+  };
+
+  if (!ready) {
     return (
-      <>
+      <div className="fullScreen">
         <NavBar userKey={userKey} userData={userData} />
-      </>
+        <div className="loading">
+          <CircularProgress />
+        </div>
+      </div>
     );
   }
 
   return (
     <div className="fullScreen">
       <NavBar userKey={userKey} userData={userData} />
-      {isMentee && mentors?.length != 0 && (
+      {isMentee && mentors?.length != 0 && ready && (
         <div className="profileWrapper">
           <div className="mentors">
             {mentors &&
@@ -107,13 +118,31 @@ export default function Mentors() {
           </div>
 
           <div className="connect">
-            <h2>Connect with a new mentor!</h2>
-            <button onClick={handleMentorConnect}>Connect!</button>
+            {/* <h2>Connect with a new mentor!</h2> */}
+
+            <button onClick={handleMentorConnect}>
+              Connect with a new mentor!
+            </button>
           </div>
+          {!mentorAvailable && requestedMentor && (
+            <div className="connect">
+              <div className="popup">
+                <button onClick={handlePopup}>X</button>
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "1vw",
+                  }}
+                >
+                  No new mentors available. Please check another time!
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
-      {isMentee && mentors?.length == 0 && (
+      {isMentee && mentors?.length == 0 && ready && (
         <div className="menteeSignUp">
           <h2>
             You haven't connected with any mentors yet! Would you like to
@@ -122,7 +151,7 @@ export default function Mentors() {
           <button onClick={handleMentorConnect}>Connect!</button>
         </div>
       )}
-      {!isMentee && (
+      {!isMentee && ready && (
         <div className="menteeSignUp">
           <h2>
             Sign up to be a mentee! Meet with students from upper-level cohorts
