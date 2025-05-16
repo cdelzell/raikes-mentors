@@ -6,24 +6,16 @@ import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 import Link from "@mui/joy/Link";
-import { useTheme, useMediaQuery, ThemeProvider } from "@mui/material";
+import { useTheme, useMediaQuery } from "@mui/material";
 
 import "./signIn.css";
 import { logIn } from "../firebase/readDatabase";
 import { useState } from "react";
-import type { UserData } from "../firebase/dataInterfaces";
 import { useNavigate } from "react-router-dom";
 import { joyTheme } from "../theme";
-import redBackground from "../assets/redBackground.avif";
 import { CssVarsProvider } from "@mui/joy/styles";
 
-export default function SignIn({
-  setUserKey,
-  setUserData,
-}: {
-  setUserKey: (key: string) => void;
-  setUserData: (data: UserData) => void;
-}) {
+export default function SignIn() {
   const [errorMessage, setErrorMessage] = useState("");
   const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
@@ -40,8 +32,6 @@ export default function SignIn({
       let foundUserData = null;
       const result = await logIn(email, password);
       if (result?.userData && result?.userID) {
-        setUserData(result?.userData);
-        setUserKey(result.userID);
         navigate("/profile", {
           state: { userKey: result?.userID, userData: result?.userData },
         });

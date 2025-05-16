@@ -6,7 +6,18 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "target": "ES2015", // use ES2015+ built-ins
+    "lib": ["ES2015", "DOM"], // pull in Map, Set, Symbol, Iterable, window, etc.
+    "module": "ESNext", // or "CommonJS", whichever your bundler expects
+    "moduleResolution": "node",
+    "jsx": "react-jsx", // enable .tsx React JSX
+    "esModuleInterop": true, // allow default imports from CommonJS
+    "skipLibCheck": true, // ignore type errors in node_modules
+    "strict": true, // keep all the other strict checks you want
+    "noUnusedLocals": false, // disable errors for unused imports/vars
+    "noUnusedParameters": false
   },
-  "include": ["./src", "src/vite-env.d.ts"]
+  "include": ["./src", "src/vite-env.d.ts"],
+  "exclude": ["node_modules", "dist"] // don’t typecheck dependencies or builds
 }

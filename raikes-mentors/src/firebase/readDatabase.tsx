@@ -2,14 +2,12 @@ import type { Mentees, Mentors, UserData } from "./dataInterfaces";
 import {
   getFirestore,
   collection,
-  QuerySnapshot,
   doc,
   getDoc,
   getDocs,
   query,
   where,
 } from "firebase/firestore";
-import type { DocumentData } from "firebase/firestore";
 import { app } from "../firebase";
 
 const db = getFirestore(app);

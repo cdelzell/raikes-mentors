@@ -6,22 +6,14 @@ import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 import { useTheme, useMediaQuery } from "@mui/material";
-import { logIn } from "../firebase/readDatabase";
 import { useState } from "react";
-import type { UserData } from "../firebase/dataInterfaces";
 import { useNavigate } from "react-router-dom";
 import "./signUp.css";
 import { addNewUser } from "../firebase/writeDatabase";
 import { joyTheme } from "../theme";
 import { CssVarsProvider } from "@mui/joy/styles";
 
-export default function SignUp({
-  setUserKey,
-  setUserData,
-}: {
-  setUserKey: (key: string) => void;
-  setUserData: (data: UserData) => void;
-}) {
+export default function SignUp() {
   const [errorMessage, setErrorMessage] = useState("");
   const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
@@ -74,8 +66,6 @@ export default function SignUp({
       const result = await addNewUser(newUser);
 
       if (result) {
-        setUserKey(result);
-        setUserData(newUser);
         navigate("/profile", { state: { userKey: result, userData: newUser } });
         return;
       }

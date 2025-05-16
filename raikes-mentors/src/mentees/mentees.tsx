@@ -3,18 +3,9 @@ import NavBar from "../components/navBar/navBar";
 import { useEffect, useState } from "react";
 import type { UserData } from "../firebase/dataInterfaces";
 import "./mentees.css";
-import {
-  getMenteeData,
-  getMentorData,
-  getNewMentor,
-  getUserData,
-} from "../firebase/readDatabase";
+import { getMentorData, getUserData } from "../firebase/readDatabase";
 import UserProfile from "../components/userProfile/userProfile";
-import {
-  addNewMentee,
-  addNewMentor,
-  editUserField,
-} from "../firebase/writeDatabase";
+import { addNewMentor, editUserField } from "../firebase/writeDatabase";
 import CircularProgress from "@mui/material/CircularProgress";
 import { muiTheme } from "../theme";
 import { ThemeProvider } from "@mui/material";

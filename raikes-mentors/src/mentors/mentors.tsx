@@ -16,7 +16,6 @@ import {
   editUserField,
 } from "../firebase/writeDatabase";
 import { CircularProgress, ThemeProvider } from "@mui/material";
-import { Dialog } from "@mui/material";
 import { muiTheme } from "../theme";
 
 export default function Mentors() {
