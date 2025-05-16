@@ -36,7 +36,9 @@ export default function NavBar({
           mentees
         </Link>
       </div>
-      <img src={raikes} className="raikesImage" />
+      <Link to={"/"} className="link">
+        <img src={raikes} className="raikesImage" />
+      </Link>
     </div>
   );
 }
