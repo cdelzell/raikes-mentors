@@ -133,7 +133,9 @@ export default function SignUp() {
                 type="text"
                 placeholder="jane"
                 value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+                onChange={(e) =>
+                  setFirstName(capitalizeFirstLetter(e.target.value))
+                }
               />
             </FormControl>
 
@@ -145,7 +147,9 @@ export default function SignUp() {
                 type="text"
                 placeholder="doe"
                 value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                onChange={(e) =>
+                  setLastName(capitalizeFirstLetter(e.target.value))
+                }
               />
             </FormControl>
 
@@ -241,4 +245,10 @@ function cleanCohort(cohort: string) {
   } catch (err) {
     return { valid: false, number: 0 };
   }
+}
+
+function capitalizeFirstLetter(name: string): string {
+  if (!name) return "";
+
+  return name.charAt(0).toUpperCase() + name.slice(1);
 }

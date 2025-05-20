@@ -3,12 +3,21 @@
   height: 100vh;
   display: flex;
   flex-direction: row;
+  position: absolute;
 }
 .profileWrapper {
   width: 70vw;
   height: 100vh;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
   background-color: whitesmoke;
   color: black;
   background-image: url("/src/assets/fadedRed.png");
   background-size: cover;
+}
+
+.profile {
+  position: absolute;
+  top: 10vw;
 }
