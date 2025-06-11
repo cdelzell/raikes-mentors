@@ -120,8 +120,6 @@ export default function Mentors() {
           </div>
 
           <div className="connect">
-            {/* <h2>Connect with a new mentor!</h2> */}
-
             <button onClick={handleMentorConnect}>
               Connect with a new mentor!
             </button>

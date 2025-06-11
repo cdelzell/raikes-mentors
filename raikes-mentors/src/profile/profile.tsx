@@ -21,7 +21,7 @@ Vision:
     - or load different pages, the nav bar should be its own component
 */
 
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import NavBar from "../components/navBar/navBar";
 import { useEffect, useState } from "react";
 import type { UserData } from "../firebase/dataInterfaces";
@@ -32,11 +32,13 @@ import { Button, Typography } from "@mui/joy";
 import Sheet from "@mui/joy/Sheet";
 import { CssVarsProvider } from "@mui/joy/styles";
 import { joyTheme } from "../theme";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function Profile() {
   const { state } = useLocation();
   const [userKey, setUserKey] = useState("");
   const [userData, setUserData] = useState<UserData>();
+  const navigate = useNavigate();
 
   const theme = useTheme();
 
@@ -57,6 +59,10 @@ export default function Profile() {
       return;
     }
   }, [state]);
+
+  const handleEdit = () => {
+    navigate("/edit-profile");
+  };
 
   return (
     <div className="fullScreen">
@@ -84,17 +90,49 @@ export default function Profile() {
               <b>
                 {userData?.firstName} {userData?.lastName}
               </b>
+              <Button
+                className="edit"
+                startDecorator={<EditIcon />}
+                variant="soft"
+                size="sm"
+              >
+                Edit
+              </Button>
             </Typography>
             <Typography>
               <b>Cohort Year:</b> {userData?.cohort}{" "}
+              <Button
+                className="edit"
+                startDecorator={<EditIcon />}
+                variant="soft"
+                size="sm"
+              >
+                Edit
+              </Button>
             </Typography>
             <Typography>
               <b>Email:</b> {userData?.email}{" "}
+              <Button
+                className="edit"
+                startDecorator={<EditIcon />}
+                variant="soft"
+                size="sm"
+              >
+                Edit
+              </Button>
             </Typography>
             <Typography>
               <b>Phone Number:</b> {userData?.phone}{" "}
+              <Button
+                className="edit"
+                startDecorator={<EditIcon />}
+                variant="soft"
+                size="sm"
+              >
+                Edit
+              </Button>
             </Typography>
-            <Button
+            {/* <Button
               sx={{
                 mt: 1,
                 "&:hover": {
@@ -103,9 +141,10 @@ export default function Profile() {
                 position: "absolute",
                 bottom: "1vw",
               }}
+              onClick={() => handleEdit()}
             >
               Edit profile
-            </Button>
+            </Button> */}
           </CssVarsProvider>
         </Sheet>
         {/* </div> */}

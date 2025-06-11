@@ -6,6 +6,7 @@ import "./index.css";
 import Profile from "./profile/profile.js";
 import Mentors from "./mentors/mentors.tsx";
 import Mentees from "./mentees/mentees.tsx";
+import EditProfile from "./editProfile/editProfile.tsx";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/mentors" element={<Mentors />} />
           <Route path="/mentees" element={<Mentees />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
         </Routes>
       </div>
     </BrowserRouter>

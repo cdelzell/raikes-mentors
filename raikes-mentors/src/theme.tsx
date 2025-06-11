@@ -13,7 +13,7 @@ const theme: ThemeOptions = {
   },
 };
 
-export const theme2 = extendTheme({
+export const joy = extendTheme({
   colorSchemes: {
     light: {
       palette: {
@@ -34,6 +34,6 @@ export const theme2 = extendTheme({
   },
 });
 
-export const joyTheme = extendTheme(theme2);
+export const joyTheme = extendTheme(joy);
 
 export const muiTheme = createTheme(theme);
