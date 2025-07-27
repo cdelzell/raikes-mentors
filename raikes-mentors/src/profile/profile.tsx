@@ -90,61 +90,16 @@ export default function Profile() {
               <b>
                 {userData?.firstName} {userData?.lastName}
               </b>
-              <Button
-                className="edit"
-                startDecorator={<EditIcon />}
-                variant="soft"
-                size="sm"
-              >
-                Edit
-              </Button>
             </Typography>
             <Typography>
               <b>Cohort Year:</b> {userData?.cohort}{" "}
-              <Button
-                className="edit"
-                startDecorator={<EditIcon />}
-                variant="soft"
-                size="sm"
-              >
-                Edit
-              </Button>
             </Typography>
             <Typography>
               <b>Email:</b> {userData?.email}{" "}
-              <Button
-                className="edit"
-                startDecorator={<EditIcon />}
-                variant="soft"
-                size="sm"
-              >
-                Edit
-              </Button>
             </Typography>
             <Typography>
               <b>Phone Number:</b> {userData?.phone}{" "}
-              <Button
-                className="edit"
-                startDecorator={<EditIcon />}
-                variant="soft"
-                size="sm"
-              >
-                Edit
-              </Button>
             </Typography>
-            {/* <Button
-              sx={{
-                mt: 1,
-                "&:hover": {
-                  backgroundColor: "#a70e0e",
-                },
-                position: "absolute",
-                bottom: "1vw",
-              }}
-              onClick={() => handleEdit()}
-            >
-              Edit profile
-            </Button> */}
           </CssVarsProvider>
         </Sheet>
         {/* </div> */}

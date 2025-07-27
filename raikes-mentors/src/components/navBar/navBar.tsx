@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import "./navBar.css";
 import type { UserData } from "../../firebase/dataInterfaces";
 import raikes from "../../assets/raikes.png";
+import { useEffect, useState } from "react";
 
 export default function NavBar({
   userKey,
@@ -10,13 +11,20 @@ export default function NavBar({
   userKey: string;
   userData: UserData | undefined;
 }) {
+  const [currLocation, setCurrentLocation] = useState("");
+
+  const handleClick = (location: string) => {
+    setCurrentLocation(location);
+  };
+
   return (
     <div className="box">
       <div className="linkWrapper">
         <Link
           to={"/profile"}
           state={{ userKey: userKey, userData: userData }}
-          className="link"
+          className={`link ${currLocation == "profile" ? "selected" : ""}`}
+          onClick={() => handleClick("profile")}
         >
           profile
         </Link>
@@ -24,14 +32,16 @@ export default function NavBar({
         <Link
           to={"/mentors"}
           state={{ userKey: userKey, userData: userData }}
-          className="link"
+          className={`link ${currLocation == "mentors" ? "selected" : ""}`}
+          onClick={() => handleClick("mentors")}
         >
           mentors
         </Link>
         <Link
           to={"/mentees"}
           state={{ userKey: userKey, userData: userData }}
-          className="link"
+          className={`link ${currLocation == "mentees" ? "selected" : ""}`}
+          onClick={() => handleClick("mentees")}
         >
           mentees
         </Link>

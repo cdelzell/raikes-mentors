@@ -22,6 +22,10 @@
   margin-left: 2vw;
 }
 
+.selected {
+  text-decoration: underline;
+}
+
 .raikesImage {
   width: 11vw;
   height: 4vw;

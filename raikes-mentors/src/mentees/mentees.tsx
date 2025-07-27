@@ -86,13 +86,11 @@ export default function Mentees() {
           mentees.map((mentee, index) => (
             <UserProfile key={index} {...mentee} />
           ))}
-        {mentees?.length == 0 && (
-          <div className="menteeSignUp empty">No mentees yet!</div>
-        )}
+        {mentees?.length == 0 && <div className="empty">No mentees yet!</div>}
       </div>
 
       {!isMentor && ready && (
-        <div className="menteeSignUp">
+        <div>
           <h2>
             Sign up to be a mentor! Meet with students from lower cohorts in
             Raikes to share your experience and offer support.
