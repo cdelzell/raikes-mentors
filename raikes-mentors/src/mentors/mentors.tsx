@@ -37,12 +37,13 @@ export default function Mentors() {
         setUserKey(stateUserKey);
         setUserData(stateUserData);
         setIsMentee(stateUserData.mentee);
+        setReady(true);
       }
     } catch (err) {
       console.log("There was an error grabbing the user's data.");
       return;
     }
-  }, [state]);
+  }, [state, userData]);
 
   useEffect(() => {
     if (userKey && userData?.mentee == true) {
@@ -67,6 +68,7 @@ export default function Mentors() {
         addNewMentee(userData);
         editUserField(userKey, { mentee: true });
         setIsMentee(true);
+        setUserData({ ...userData, mentee: true });
       }
     })();
   };
@@ -138,12 +140,24 @@ export default function Mentors() {
       )}
 
       {isMentee && mentors?.length == 0 && ready && (
-        <div className="menteeSignUp">
+        <div className="profileWrapper menteeSignUp">
           <h2>
             You haven't connected with any mentors yet! Would you like to
             connect with one?
           </h2>
-          <button onClick={handleMentorConnect}>Connect!</button>
+          <button onClick={handleMentorConnect} className="connectButton">
+            Connect!
+          </button>
+          {!mentorAvailable && requestedMentor && (
+            <div className="connect">
+              <div className="popup">
+                <div style={{ position: "absolute", bottom: ".6vw" }}>
+                  No new mentors available. Please check another time!
+                </div>
+                <button onClick={handlePopup}>X</button>
+              </div>
+            </div>
+          )}
         </div>
       )}
       {!isMentee && ready && (

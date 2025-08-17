@@ -28,12 +28,13 @@ export default function Mentees() {
         setUserKey(stateUserKey);
         setUserData(stateUserData);
         setIsMentor(stateUserData.mentor);
+        setReady(true);
       }
     } catch (err) {
       console.log("There was an error grabbing the user's data.");
       return;
     }
-  }, [state]);
+  }, [state, userData]);
 
   useEffect(() => {
     if (userKey && userData?.mentor == true) {
@@ -59,6 +60,7 @@ export default function Mentees() {
         addNewMentor(userData);
         editUserField(userKey, { mentor: true });
         setIsMentor(true);
+        setUserData({ ...userData, mentor: true });
         console.log("success!");
       }
     })();
@@ -80,17 +82,19 @@ export default function Mentees() {
   return (
     <div className="fullScreen">
       <NavBar userKey={userKey} userData={userData} />
-      <div className="profileWrapper">
-        {mentees?.length != 0 &&
-          ready &&
-          mentees.map((mentee, index) => (
-            <UserProfile key={index} {...mentee} />
-          ))}
-        {mentees?.length == 0 && <div className="empty">No mentees yet!</div>}
-      </div>
+      {isMentor && ready && (
+        <div className="profileWrapper">
+          {mentees?.length != 0 &&
+            ready &&
+            mentees.map((mentee, index) => (
+              <UserProfile key={index} {...mentee} />
+            ))}
+          {mentees?.length == 0 && <div className="empty">No mentees yet!</div>}
+        </div>
+      )}
 
       {!isMentor && ready && (
-        <div>
+        <div className="mentorSignUp">
           <h2>
             Sign up to be a mentor! Meet with students from lower cohorts in
             Raikes to share your experience and offer support.
