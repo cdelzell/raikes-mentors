@@ -21,7 +21,7 @@ Vision:
     - or load different pages, the nav bar should be its own component
 */
 
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import NavBar from "../components/navBar/navBar";
 import { useEffect, useState } from "react";
 import type { UserData } from "../firebase/dataInterfaces";
