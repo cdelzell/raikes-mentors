@@ -26,19 +26,16 @@ import NavBar from "../components/navBar/navBar";
 import { useEffect, useState } from "react";
 import type { UserData } from "../firebase/dataInterfaces";
 import "./profile.css";
-import SignUp from "../signUp/signUp";
 import { useMediaQuery, useTheme } from "@mui/material";
-import { Button, Typography } from "@mui/joy";
+import { Typography } from "@mui/joy";
 import Sheet from "@mui/joy/Sheet";
 import { CssVarsProvider } from "@mui/joy/styles";
 import { joyTheme } from "../theme";
-import EditIcon from "@mui/icons-material/Edit";
 
 export default function Profile() {
   const { state } = useLocation();
   const [userKey, setUserKey] = useState("");
   const [userData, setUserData] = useState<UserData>();
-  const navigate = useNavigate();
 
   const theme = useTheme();
 
@@ -60,15 +57,10 @@ export default function Profile() {
     }
   }, [state]);
 
-  const handleEdit = () => {
-    navigate("/edit-profile");
-  };
-
   return (
     <div className="fullScreen">
       <NavBar userKey={userKey} userData={userData} />
       <div className="profileWrapper">
-        {/* <div className="profile"> */}
         <Sheet
           sx={{
             width: isSmallScreen ? "50%" : isMediumScreen ? "50%" : 400,

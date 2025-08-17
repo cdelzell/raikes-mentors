@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "./navBar.css";
 import type { UserData } from "../../firebase/dataInterfaces";
 import raikes from "../../assets/raikes.png";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function NavBar({
   userKey,
